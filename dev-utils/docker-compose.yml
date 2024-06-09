@@ -1,0 +1,58 @@
+version: '3.7'
+services:
+  spark-master:
+    image: bitnami/spark:3.2.2
+    depends_on:
+      - spark-workers
+    ports:
+      - "8080:8080"  # Spark master web UI
+      - "7077:7077"
+    environment:
+      - SPARK_MODE=master
+
+  spark-workers:
+    image: bitnami/spark:3.2.2
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      # By default Beam expects workers (of the SDK worker pool) to connect to a Spark worker on `localhost`. When running
+      # the worker pool in docker on a Mac this isn't possible due to the lack of `host` networking. Using
+      # BEAM_WORKER_POOL_IN_DOCKER_VM=1, Beam will use `host.docker.internal` to communicate via the docker host instead.
+      - BEAM_WORKER_POOL_IN_DOCKER_VM=1
+      # DOCKER_MAC_CONTAINER=1 limits the ports on a Spark worker for communication with SDK workers to the range 8100 - 8200
+      # instead of using random ports. Ports of the range are used in a round-robin fashion and have to be published.
+      - DOCKER_MAC_CONTAINER=1
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
+    ports:
+      - "8081:8081"  # Spark worker web UI
+      - "7078:7078"
+      - "8100-8200:8100-8200"  # Ports used for SDK workers to communicate with the Spark worker
+    volumes:
+      - beam-artifact-staging:/tmp/beam-artifact-staging
+
+  # Beam Python SDK harness / worker pool
+  beam-python-workers:
+    image: apache/beam_python3.9_sdk:latest
+    command: ["--worker_pool"]
+    volumes:
+      # Mount /tmp to access result files
+      - ./work/pythonsdk:/tmp
+      - beam-artifact-staging:/tmp/staged
+
+  beam-job-server:
+    image: apache/beam_spark3_job_server:latest
+    depends_on:
+      - spark-master
+    ports:
+      - "4040:4040"  # Spark job UI on the driver
+      - "8099:8099"  # Job endpoint
+      - "8098:8098"  # Artifact endpoint
+    command: ["--artifacts-dir=/tmp/beam-artifact-staging", "--spark-master-url=spark://spark-master:7077", "--clean-artifacts-per-job=true"]
+    volumes:
+      - beam-artifact-staging:/tmp/beam-artifact-staging
+
+volumes:
+  beam-artifact-staging:
+
+
