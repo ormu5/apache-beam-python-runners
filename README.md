@@ -59,6 +59,12 @@ See [LICENSE](LICENSE) for details.
 
 Beam application logic in this repo is based on https://github.com/apache/beam-starter-python.
 
+Also gleaned bits from:
+* https://github.com/sambvfx/beam-flink-k8s
+* https://www.mail-archive.com/user@beam.apache.org/msg07434.html
+* https://lists.apache.org/thread/zq7n1kxbxlnoh8ryrjvfhg68xjcd3lt6
+* https://github.com/mosche/beam-portable-spark/blob/main/docker-compose.yml
+
 Feel free to open a PR against this repo.
 
 # Known Issues
