@@ -40,7 +40,7 @@ redis==5.0.4
 referencing==0.35.0
 regex==2024.4.16
 requests==2.31.0
-rpds-py==0.18.0
+rpds-py==0.18.1
 six==1.16.0
 tomli==2.0.1
 typing_extensions==4.11.0
