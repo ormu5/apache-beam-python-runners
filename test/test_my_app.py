@@ -11,23 +11,36 @@
 
 import unittest
 from unittest.mock import patch
+import logging
 
 from apache_beam.testing.test_pipeline import TestPipeline
 from apache_beam.testing.util import assert_that, equal_to
 
 import my_app
 
+# Configure the logger
+logger = logging.getLogger('my_app')
+logging.basicConfig(level=logging.INFO)
+
 
 @patch("apache_beam.Pipeline", TestPipeline)
-@patch("builtins.print", lambda x: x)
+# @patch("logging.Logger.info", lambda x: x.getMessage())  # Patch logger.info instead of print
+# @patch("builtins.print", lambda x: x)
 class TestApp(unittest.TestCase):
     def test_run_direct_runner(self):
         # Note that the order of the elements doesn't matter.
-        expected = ["Test", "Hello", "World!"]
-        my_app.run(
-            input_text="Test",
-            test=lambda elements: assert_that(elements, equal_to(expected)),
-        )
+        expected = ["one_string", "two_string", "three_string"]
+        with self.assertLogs('my_app', level='INFO') as log:
+            my_app.run(
+                input_text="oneString twoString threeString",
+                # Right now accounting for log methods having no output...
+                # test=lambda elements: assert_that(elements, equal_to(expected)),
+            )
+
+        # ...instead, checking logs here instead of in elements
+        log_messages = [record.getMessage() for record in log.records]
+        for expected_message in expected:
+            self.assertIn(expected_message, log_messages)
 
 
 if __name__ == "__main__":

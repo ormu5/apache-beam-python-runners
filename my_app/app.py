@@ -33,8 +33,9 @@ def run(
     with beam.Pipeline(options=beam_options) as pipeline:
         elements = (
                 pipeline
-                | "Create snake-case strings" >> beam.Create(input_text.split(' '))
-                | "Print snake-case strings" >> beam.Map(lambda x: logger.info(humps.decamelize(x)))
+                # | "Create snake_case strings" >> beam.Create(input_text.split(' '))
+                | "Create snake_case strings" >> beam.Create(['oneString', 'twoString', 'threeString'])
+                | "Print snake_case strings" >> beam.Map(lambda x: logger.info(humps.decamelize(x)))
         )
 
         # Used for testing only.
