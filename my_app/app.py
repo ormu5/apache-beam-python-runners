@@ -34,7 +34,7 @@ def run(
         elements = (
                 pipeline
                 # | "Create snake_case strings" >> beam.Create(input_text.split(' '))
-                | "Create snake_case strings" >> beam.Create(['oneString', 'twoString', 'threeString'])
+                | "Create snake_case strings" >> beam.Create(input_text.split(' '))
                 | "Print snake_case strings" >> beam.Map(lambda x: logger.info(humps.decamelize(x)))
         )
 
