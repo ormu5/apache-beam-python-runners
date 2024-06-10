@@ -46,5 +46,5 @@ tomli==2.0.1
 typing_extensions==4.11.0
 tzlocal==5.2
 urllib3==2.2.1
-zipp==3.19.1
+zipp==3.19.2
 zstandard==0.22.0
