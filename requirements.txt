@@ -36,7 +36,7 @@ pyparsing==3.1.2
 pyproject_hooks==1.1.0
 python-dateutil==2.9.0.post0
 pytz==2024.1
-redis==5.0.4
+redis==5.0.5
 referencing==0.35.1
 regex==2024.4.16
 requests==2.31.0
