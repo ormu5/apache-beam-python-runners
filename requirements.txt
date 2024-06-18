@@ -45,6 +45,6 @@ six==1.16.0
 tomli==2.0.1
 typing_extensions==4.12.2
 tzlocal==5.2
-urllib3==2.2.1
+urllib3==2.2.2
 zipp==3.19.2
 zstandard==0.22.0
