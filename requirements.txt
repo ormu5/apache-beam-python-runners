@@ -31,7 +31,7 @@ pyarrow-hotfix==0.6
 pydot==1.4.2
 pyhumps==3.8.0
 pyjsparser==2.7.1
-pymongo==4.7.3
+pymongo==4.8.0
 pyparsing==3.1.2
 pyproject_hooks==1.1.0
 python-dateutil==2.9.0.post0
