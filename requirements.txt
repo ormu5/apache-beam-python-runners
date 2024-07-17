@@ -26,7 +26,7 @@ orjson==3.10.5
 packaging==24.1
 proto-plus==1.23.0
 protobuf==4.25.3
-pyarrow==14.0.2
+pyarrow==17.0.0
 pyarrow-hotfix==0.6
 pydot==1.4.2
 pyhumps==3.8.0
